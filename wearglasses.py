@@ -5,15 +5,12 @@ from pathlib import Path
 
 import cv2
 import dlib
-import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from rich import print
 import gi
 gi.require_version("Notify", "0.7")
 from gi.repository import Notify
-
-
 
 now = datetime.datetime.now()
 now_str = now.strftime("%Y%m%d%H%M%S")

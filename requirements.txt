@@ -1,7 +1,5 @@
 numpy
 dlib
-matplotlib
-statistics
 pillow
 opencv-contrib-python
 rich
