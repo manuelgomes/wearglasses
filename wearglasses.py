@@ -20,7 +20,7 @@ runs.mkdir(parents=True, exist_ok=True)
 cam = cv2.VideoCapture(0)
 result, image = cam.read()
 if not result:
-    runs.joinpath("FAIL").touch()
+    runs.joinpath("NOPIC").touch()
     raise IOError("No image found")
 
 shot = Image.fromarray(image)
@@ -66,7 +66,7 @@ print(present)
 if present:
     runs.joinpath("PRESENT").touch()
 else:
-    runs.joinpath("NOTFOUND").touch()
+    runs.joinpath("ABSENT").touch()
     Notify.init("Wear Glasses")
     notification=Notify.Notification.new ("Wear Glasses",
                                "Put on your glasses, Manny!",
