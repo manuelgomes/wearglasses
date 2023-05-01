@@ -12,26 +12,25 @@ import gi
 gi.require_version("Notify", "0.7")
 from gi.repository import Notify
 
-now = datetime.datetime.now()
-now_str = now.strftime("%Y%m%d%H%M%S")
-runs = Path.cwd().joinpath("runs",now_str)
-runs.mkdir(parents=True, exist_ok=True)
+from runlog.recorder import Recorder
+rec = Recorder()
 
 cam = cv2.VideoCapture(0)
 result, image = cam.read()
 if not result:
-    runs.joinpath("NOPIC").touch()
+    rec.tell("NOPIC")
     raise IOError("No image found")
 
 shot = Image.fromarray(image)
-shot.save(runs.joinpath("shot.png"))
+rec.save(shot, "shot")
+
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('./assets/shape_predictor_68_face_landmarks.dat')
 detected = detector(image)
 
 if len(detected) == 0:
-    runs.joinpath("NOFACE").touch()
+    rec.tell("NOFACE")
     sys.exit(0)
 
 rect = detected[0]
@@ -53,20 +52,20 @@ y_min = landmarks[20][1]
 y_max = landmarks[31][1]
 
 area = shot.crop((x_min,y_min,x_max,y_max))
-area.save(runs.joinpath("area.png"))
+rec.save(area, "area")
 
 img_blur = cv2.GaussianBlur(np.array(area),(3,3), sigmaX=0, sigmaY=0)
 edges = cv2.Canny(image =img_blur, threshold1=100, threshold2=200)
-edge_capture = Image.fromarray(edges)
-edge_capture.save(runs.joinpath("edges.png"))
 edges_center = edges.T[(int(len(edges.T)/2))]
+
+rec.save(Image.fromarray(edges), "edges")
 
 present =  255 in edges_center
 print(present)
 if present:
-    runs.joinpath("PRESENT").touch()
+    rec.tell("PRESENT")
 else:
-    runs.joinpath("ABSENT").touch()
+    rec.tell("ABSENT")
     Notify.init("Wear Glasses")
     notification=Notify.Notification.new ("Wear Glasses",
                                "Put on your glasses, Manny!",

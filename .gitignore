@@ -1,3 +1,4 @@
 .venv
 .vscode
-runs
+runs/
+__pycache__
