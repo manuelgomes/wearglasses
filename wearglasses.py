@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/home/manuel/.virtualenvs/wearglasses-oxjq/bin/python
 from pathlib import Path
 import os
 from runlog.recorder import Recorder
+from runlog.reaper import Reaper
 from vision.face import Face
 from vision.capture import Capture
 from discriminator.glasses import Glasses
@@ -31,4 +32,8 @@ if present:
 else:
     rec.tell("ABSENT")
     note = Notification()
-    note.display("Manny")
+    note.display("Coder")
+
+runsdir = BASE_DIR.joinpath("runs")
+man = Reaper(path=runsdir)
+man.check()

@@ -1,8 +1,6 @@
-numpy
-dlib
-pillow
-opencv-contrib-python
-rich
-gobject
-pycairo
-PyGObject
+numpy~=1.26.2
+dlib~=19.24.2
+pillow~=10.1.0
+PyGObject~=3.46.0
+
+opencv-python~=4.8.1.78
